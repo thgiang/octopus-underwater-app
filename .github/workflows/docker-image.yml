@@ -12,7 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHA6: ${gihub.sha::6}
+    
     steps:
+    - name: Get short SHA
+      id: slug
+      run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
     - uses: actions/checkout@v2
     - uses: kciter/aws-ecr-action@v3
       with:
@@ -21,7 +25,7 @@ jobs:
         account_id: ${{ secrets.AWS_ACCOUNT_ID }}
         repo: wordpress
         region: us-west-1
-        tags: $SHA6
+        tags: ${{ steps.slug.outputs.sha8 }}
         create_repo: true
         image_scanning_configuration: true
         set_repo_policy: true
