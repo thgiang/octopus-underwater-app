@@ -11,7 +11,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
-      SHA6: ${GITHUB_SHA::6}
+      SHA6: ${gihub.sha::6}
     steps:
     - uses: actions/checkout@v2
     - uses: kciter/aws-ecr-action@v3
@@ -21,7 +21,7 @@ jobs:
         account_id: ${{ secrets.AWS_ACCOUNT_ID }}
         repo: wordpress
         region: us-west-1
-        tags: ${{SHA6}}
+        tags: $SHA6
         create_repo: true
         image_scanning_configuration: true
         set_repo_policy: true
